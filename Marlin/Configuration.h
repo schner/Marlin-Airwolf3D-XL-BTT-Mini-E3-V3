@@ -61,7 +61,7 @@
 // @section info
 
 // Author info of this build printed to the host during boot and M115
-#define STRING_CONFIG_H_AUTHOR "(M Schner IT, SKR-mini-E3-V3.5)" // Who made the changes.
+#define STRING_CONFIG_H_AUTHOR "(M Schner IT, SKR-mini-E3-V3.0)" // Who made the changes.
 //#define CUSTOM_VERSION_FILE Version.h // Path from the root directory (no quotes)
 
 // @section machine
@@ -126,7 +126,7 @@
 //#define BLUETOOTH
 
 // Name displayed in the LCD "Ready" message and Info menu
-#define CUSTOM_MACHINE_NAME "Airwolf-XL-V3.6.0"
+#define CUSTOM_MACHINE_NAME "Airwolf-XL-V3.8.1"
 
 // Printer's unique ID, used by some programs to differentiate between machines.
 // Choose your own or use a service like https://www.uuidgenerator.net/version4
@@ -700,9 +700,9 @@
     #define DEFAULT_Ki_LIST {   1.08,   1.08 }
     #define DEFAULT_Kd_LIST { 114.00, 114.00 }
   #else
-    #define DEFAULT_Kp 18.05
-    #define DEFAULT_Ki 1.35
-    #define DEFAULT_Kd 60.30
+    #define DEFAULT_Kp 29.77
+    #define DEFAULT_Ki 3.38
+    #define DEFAULT_Kd 65.50
   #endif
 #else
   #define BANG_MAX 255    // Limit hotend current while in bang-bang mode; 255=full current
@@ -795,9 +795,9 @@
 
   // 120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
   // from FOPDT model - kp=.39 Tp=405 Tdead=66, Tc set to 79.2, aggressive factor of .15 (vs .1, 1, 10)
-  #define DEFAULT_bedKp 81.83
-  #define DEFAULT_bedKi 14.82
-  #define DEFAULT_bedKd 301.34
+  #define DEFAULT_bedKp 50.57
+  #define DEFAULT_bedKi 7.35
+  #define DEFAULT_bedKd 231.93
 
   // FIND YOUR OWN: "M303 E-1 C8 S90" to run autotune on the bed at 90 degreesC for 8 cycles.
 #else
