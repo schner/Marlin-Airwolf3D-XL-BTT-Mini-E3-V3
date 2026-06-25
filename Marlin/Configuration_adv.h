@@ -1308,7 +1308,7 @@
 #endif
 
 #if ANY(INPUT_SHAPING_X, INPUT_SHAPING_Y, INPUT_SHAPING_Z, FTM_SHAPER_ZV, FTM_SHAPER_ZVD, FTM_SHAPER_ZVDD, FTM_SHAPER_ZVDDD, FTM_SHAPER_EI, FTM_SHAPER_2HEI, FTM_SHAPER_3HEI, FTM_SHAPER_MZV)
-  //#define RESONANCE_TEST              // Sine sweep motion for resonance study
+  #define RESONANCE_TEST              // Sine sweep motion for resonance study (M495/M496) — find FT_MOTION freq without a tower
 #endif
 
 // @section motion

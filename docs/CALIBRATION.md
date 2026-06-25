@@ -51,12 +51,32 @@ Menu LCD: `MPC_EDIT_MENU` e `MPC_AUTOTUNE_MENU` estão ligados → dá pra rodar
 
 ---
 
-## 2. FT_MOTION — frequência do shaper  · TORRE DE RINGING
+## 2. FT_MOTION — frequência do shaper
 
 FT_MOTION suprime ghosting/ringing, mas precisa da **frequência de ressonância real** de
-cada eixo. Sem acelerômetro (ADXL345), o método é a **torre de ringing** + medir.
+cada eixo. Dois métodos abaixo — comece pelo **A (M495)**, mais rápido.
 
-### 2a. Gerar a torre (OpenSCAD → STL)
+> **ADXL345 / acelerômetro:** este Marlin **não** lê acelerômetro pra medir ressonância
+> (isso é feature do Klipper, e o SKR Mini E3 V3.0 não tem pino livre pra ele). Aqui é
+> manual: sweep (M495) por observação, ou torre de ringing por medição. Guarde o ADXL345
+> pra fase Klipper (lá ele vai no SPI do Raspberry Pi).
+
+### Método A — M495 (sweep, sem torre)  ·  `RESONANCE_TEST` ligado
+
+O firmware vibra o eixo varrendo a frequência; você acha onde ressoa mais forte (mais
+barulho/vibração na mesa ou na estrutura). Encoste a mão no eixo/estrutura ou observe.
+
+```gcode
+M495 X F5 T100 A60 S    ; sweep eixo X: 5 -> 100 Hz, accel/Hz 60, S = start
+M496                     ; abortar a qualquer momento
+M495 Y F5 T100 A60 S    ; idem eixo Y
+```
+- Anote a frequência aproximada do pico de vibração de cada eixo.
+- Vá direto pro passo **2d** pra aplicar. Se quiser precisão, confirme com a torre (Método B).
+
+### Método B — torre de ringing (medição visual)
+
+#### 2a. Gerar a torre (OpenSCAD → STL)
 
 Cole no [OpenSCAD](https://openscad.org), aperte **F6** (render) e exporte STL:
 
