@@ -30,6 +30,12 @@ out-csv/
 out-language/
 *.gen
 *.sublime-workspace
+.cache/
+
+# npm
+node_modules/
+package.json
+package-lock.json
 
 # OS
 applet/
@@ -171,4 +177,6 @@ tags
 *.logs
 *.bak
 .aider*
+!.aiderignore
 .env
+schema.json

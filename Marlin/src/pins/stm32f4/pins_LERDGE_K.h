@@ -37,7 +37,7 @@
   #define SOFT_I2C_EEPROM                         // Force the use of Software I2C
   #define I2C_SCL_PIN                       PG14
   #define I2C_SDA_PIN                       PG13
-  #define MARLIN_EEPROM_SIZE             0x10000
+  #define MARLIN_EEPROM_SIZE            0x10000U  // 64K
 #endif
 
 #define HAS_OTG_USB_HOST_SUPPORT                  // USB Flash Drive support
@@ -114,9 +114,9 @@
 //#endif
 
 #if HAS_TMC_UART
-  /**
-   * TMC2208/TMC2209 stepper drivers
-   */
+  //
+  // TMC2208/TMC2209 stepper drivers
+  //
   #ifndef X_SERIAL_TX_PIN
     #define X_SERIAL_TX_PIN                 PB2
   #endif
@@ -136,10 +136,9 @@
   #ifndef EX_SERIAL_TX_PIN
     #define EX_SERIAL_TX_PIN                PE0
   #endif
-  //#define Z2_SERIAL_RX_PIN    EX_SERIAL_RX_PIN
   //#define Z2_SERIAL_TX_PIN    EX_SERIAL_TX_PIN
-  //#define E2_SERIAL_RX_PIN    EX_SERIAL_RX_PIN
   //#define E2_SERIAL_TX_PIN    EX_SERIAL_TX_PIN
+
   // Reduce baud rate to improve software serial reliability
   #ifndef TMC_BAUD_RATE
     #define TMC_BAUD_RATE                  19200
@@ -210,7 +209,6 @@
   #define SD_MISO_PIN                       PC8
   #define SD_MOSI_PIN                       PD2
   #define SD_SS_PIN                         PC11
-  #define SDSS                              PC11
 #endif
 
 //
