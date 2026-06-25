@@ -99,7 +99,11 @@ printer. Knowing the mechanics explains the config choices:
 
 - **Extruder:** Bulldog XL, **direct drive** → short retractions (0.8–1.0 mm), never the
   long Bowden-style values.
-- **Hotend:** E3D V6, 1.75 mm filament, **0.4 mm** nozzle, silicone sock.
+- **Hotend:** BP6 (copper block, all-metal or PTFE-lined throat options), 1.75 mm,
+  **0.4 mm** nozzle, silicone sock now installed. Nozzle options on hand: PTFE-plated
+  brass (best flow, PLA/PETG), hardened steel (abrasives/GF), titanium alloy.
+  After any hotend hardware swap (sock/nozzle/block/throat): re-run MPC autotune
+  (`M306 T` + `M500`) and re-set Z-offset/mesh.
 - **Probe:** BLTouch. **Bed:** heated, dual-sided magnetic plate (textured/smooth).
 - **Host:** Raspberry Pi 4 running OctoPrint + OctoDash; Logitech C920 for timelapse
   (Octolapse). Onboard touch screen present.
@@ -157,9 +161,10 @@ Deliberate deviations in `Configuration*.h` — preserve them; don't "fix" them 
 - `INVERT_E0_DIR true`
 - Debug flags currently on (`DEBUG_LEVELING_FEATURE`, `PINS_DEBUGGING`) — tuning aids;
   consider disabling for a production/release build.
-- **No silicone sock on the hotend** → thermally marginal. Never loosen
-  `THERMAL_PROTECTION`; keep flow/speed conservative. `HOTEND_IDLE_TIMEOUT` is enabled
-  partly to mitigate heat creep when idle.
+- **Silicone sock now installed** (was missing) → thermal margin improved, the
+  earlier fan-induced temp sag should ease. Still never loosen `THERMAL_PROTECTION`.
+  Re-run MPC autotune (`M306 T`) with the sock on. `HOTEND_IDLE_TIMEOUT` stays enabled
+  as general heat-creep safety.
 
 ## Advanced features (round of 2026-06-25)
 
