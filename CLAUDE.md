@@ -161,36 +161,51 @@ Deliberate deviations in `Configuration*.h` — preserve them; don't "fix" them 
   `THERMAL_PROTECTION`; keep flow/speed conservative. `HOTEND_IDLE_TIMEOUT` is enabled
   partly to mitigate heat creep when idle.
 
-## Advanced features enabled (2026-06-25)
+## Advanced features (round of 2026-06-25)
 
-Beyond the fork's existing set (runout + `FILAMENT_MOTION_SENSOR`, `NOZZLE_PARK_FEATURE`,
+The fork already shipped: runout + `FILAMENT_MOTION_SENSOR`, `NOZZLE_PARK_FEATURE`,
 `ADVANCED_PAUSE_FEATURE` + `PARK_HEAD_ON_PAUSE` + M701/M702, `HOST_ACTION_COMMANDS` +
-`HOST_PROMPT_SUPPORT` for OctoPrint, `LIN_ADVANCE`, `ARC_SUPPORT`,
-`ADAPTIVE_STEP_SMOOTHING`, `BABYSTEPPING`, `EMERGENCY_PARSER`, `SET_PROGRESS_MANUALLY`),
-these were turned on in `Configuration_adv.h`:
+`HOST_PROMPT_SUPPORT` (OctoPrint), `LIN_ADVANCE`, `ARC_SUPPORT`, `ADAPTIVE_STEP_SMOOTHING`,
+`BABYSTEPPING`, `EMERGENCY_PARSER`, `SET_PROGRESS_MANUALLY`.
 
-- `INPUT_SHAPING_X` / `INPUT_SHAPING_Y` — anti-ghosting. **Default 40 Hz is a placeholder;
-  must be calibrated** (ringing tower + `M593 F`, or the resonance test) per axis.
-- `HYBRID_THRESHOLD` — StealthChop below / SpreadCycle above the per-axis thresholds
-  (XY 100 mm/s) for torque at speed. Louder above threshold.
+Added this round (`Configuration_adv.h` unless noted), each needing calibration where flagged:
+
+- **`FT_MOTION`** (Fixed-Time Motion) — replaces Input Shaping (the two are mutually
+  exclusive; `INPUT_SHAPING_*` and `S_CURVE_ACCELERATION` are off). ZV shaper on X/Y,
+  default 37 Hz, `FTM_IS_DEFAULT_MOTION` on, `FT_MOTION_MENU` for on-LCD tuning.
+  **Must calibrate** shaper frequency per axis (ringing tower → `M493`). K factor is set
+  with `M900 K` (shared with `LIN_ADVANCE`). ⚠️ FT_MOTION is BETA and CPU-heavy; the
+  STM32G0 (M0+ @ 64 MHz, no FPU) may not keep up at high speed — verify on the machine,
+  fall back to Input Shaping if it stutters.
+- **`MPCTEMP`** (Model Predictive Control) — replaces hotend `PIDTEMP` (now off; bed still
+  uses PID). `MPC_AUTOTUNE` + edit/autotune LCD menus on. **Must run `M306 T` then `M500`**
+  before printing or temps are uncontrolled. Better at fan-induced temp drops (the no-sock
+  symptom). Hotend PID values kept commented for revert.
+- `HYBRID_THRESHOLD` — StealthChop below / SpreadCycle above per-axis thresholds
+  (XY 100 mm/s) for torque at speed.
 - `HOTEND_IDLE_TIMEOUT` — cools the nozzle after 5 min idle >180 °C (no-sock safety).
-- `MONITOR_DRIVER_STATUS` (+ `STOP_ON_ERROR`, `CURRENT_STEP_DOWN 50`) — TMC over-temp
-  watch; relevant with the raised 1200 mA currents.
-- `BABYSTEP_ZPROBE_OFFSET` — live babystep writes back to the M851 Z offset (PEI first
-  layer tuning).
+- `MONITOR_DRIVER_STATUS` (+ `STOP_ON_ERROR`, `CURRENT_STEP_DOWN 50`) — TMC over-temp watch.
+- `BABYSTEP_ZPROBE_OFFSET` — live babystep writes back to the M851 Z offset (PEI first layer).
 - `G29_RETRY_AND_RECOVER` (3 retries) — BLTouch probe-fail recovery.
 - `SET_REMAINING_TIME` + `SHOW_REMAINING_TIME` — ETA on display, fed by host `M73 R`.
 - `CANCEL_OBJECTS` — `M486` object cancel (OctoPrint).
+- `BOARD_HAS_DCDC5V` + `NEOPIXEL_PIXELS 29` (Configuration.h) — satisfies the upstream
+  NeoPixel current guard; strip is externally powered by a DC-DC buck (physical strip 32,
+  last 3 unused).
 
-**Verified:** `platformio run -e STM32G0B1RE_btt` succeeds — Flash 50.9% (267 KB/512 KB),
-RAM 15.8% (23 KB/144 KB). Plenty of headroom for more.
+Calibration procedures: see [docs/CALIBRATION.md](docs/CALIBRATION.md).
+
+**Verified:** `platformio run -e STM32G0B1RE_btt` succeeds — Flash 56.3% (290 KB/504 KB),
+RAM 15.4% (23 KB/144 KB).
 
 **Not enabled — `POWER_LOSS_RECOVERY`:** pin conflict. `FIL_MOTION1_PIN` is mapped to
 `POWER_LOSS_PIN`, so the motion sensor and PLR can't coexist on the stock wiring.
 
-**Upstream drift:** this fork is ~1100 commits behind `marlin/bugfix-2.1.x`
-(fork ≈ 2024-10, upstream ≈ 2026-06). A sync is a separate, deliberate task — do it in an
-isolated worktree, reconcile `Configuration*.h` conflicts, then full build-test + reflash.
+**Upstream:** synced to `marlin/bugfix-2.1.x` @ 2026-06-25 (merge `6f54964b7f`). The pre-sync
+state is preserved on branch `pre-upstream-merge-2026-06-25` as a restore point. Future
+syncs: `git fetch marlin && git merge marlin/bugfix-2.1.x` — conflicts land only in the two
+config files; resolve by keeping machine values and adopting upstream's new option structure
+(watch for renamed macros, e.g. the PID `DEFAULT_Kp`→`DEFAULT_KP` rename in this sync).
 
 ## Contributing conventions (upstream)
 
