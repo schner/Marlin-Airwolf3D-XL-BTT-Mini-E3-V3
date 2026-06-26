@@ -9,7 +9,7 @@ FT_MOTION/MPC. Guardado como referência de restauração.
 |---|---|---|
 | Bed PID | `M304 P95.54 I18.66 D326.11` | ✅ sim — mesa ainda usa PID, estava tunado |
 | Z-probe offset | `M851 Z-2.93` | ✅ ponto de partida (sock não muda a ponta) → depois babystep |
-| Home offset | `M206 X-16` | ✅ sim — **verificar homing depois** |
+| Home offset | `M206 X-16` | ✅ **OBRIGATÓRIO** — sem ele o G29 manda o probe além do fim de curso do X e **bate no chassi**. Re-aplicar após qualquer M502, ANTES de homing/G29 |
 | Load/unload | `M603 L80.00 U100.00` | ⚙️ opcional |
 | Hotend PID | `M301 P12.92 I0.84 D49.60` | ❌ **não** — hotend agora é MPC (`M306 T`) |
 | Accel / feedrate / JD | M201/M203/M204/M205 antigos | ❌ não — usar os tetos novos do M502 |

@@ -147,7 +147,13 @@ acceleration, or extruder feedrate without validating the hardware physically.
 Deliberate deviations in `Configuration*.h` — preserve them; don't "fix" them to defaults:
 
 - `CUSTOM_MACHINE_NAME "Airwolf-XL-V4.7.6"`, author tag `M Schner IT`
-- Bed **275 × 200**, `Z_MAX_POS 160`, `X_MIN_POS -16` (home offset `M206 X-16`)
+- Bed **275 × 200**, `Z_MAX_POS 160`, `X_MIN_POS -16`
+- ⚠️ **`M206 X-16` (home offset) is REQUIRED and lives only in EEPROM.** The machine's X
+  endstop sits ~16 mm further left than `X_MIN_POS` alone accounts for; without the M206
+  offset, `G29` drives the probe past the physical X end and **crashes into the frame**.
+  It survives a normal reflash but **`M502` wipes it** — after any `M502`, re-apply
+  `M206 X-16` + `M500` BEFORE homing/G29. (Not yet baked into `Configuration.h`; doing so
+  needs verifying the real endstop-to-bed geometry, not guessing X_MIN/X_MAX.)
 - **BLTouch** with `AUTO_BED_LEVELING_BILINEAR` (5×5 grid, fade height 10 mm),
   `Z_SAFE_HOMING`, `USE_PROBE_FOR_Z_HOMING`; `NOZZLE_TO_PROBE_OFFSET { 38, 0, -3.88 }`
 - TMC2209 on X/Y/Z/E0; X/Y/Z RMS current raised to **1200 mA** (E0 at 800 mA)
