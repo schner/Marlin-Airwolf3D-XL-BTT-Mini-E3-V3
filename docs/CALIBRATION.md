@@ -180,6 +180,39 @@ Com MPC + frequência FT + K aplicados:
 
 ---
 
+## 5. Calibrações extras (opcionais, melhoram qualidade)
+
+> **Como gerar as torres facilmente:** Cura → **Marketplace** → instala o plugin
+> **"Calibration Shapes"** (5axes/fieldOfView). Adiciona modelos prontos em
+> *Extensions → Part for calibration*: torre de temperatura, torre de retração, teste de
+> ringing/ressonância, cubo de flow, etc. — mais simples que baixar STL avulso. Várias
+> usam um post-processing script do Cura (Extensions → Post Processing) pra variar o
+> parâmetro por altura.
+
+### 5a. Flow / multiplicador de extrusão
+1. Imprime um **cubo de parede única** (vaso, 1 perímetro, 0 infill/top).
+2. Mede a espessura da parede com paquímetro (alvo = line width, ex. 0.40 mm).
+3. `flow_novo = flow_atual × (alvo ÷ medido)`. Ajusta no Cura (Material → Flow) por material.
+   - Ex.: alvo 0.40, mediu 0.42 → 100 × 0.40/0.42 = **95%**.
+
+### 5b. Torre de temperatura (por material)
+- Gera pelo plugin (Temp Tower) ou STL "SmartTempTower".
+- Faixas de partida: PLA 190–215 · PETG 230–250 · ABS 235–255.
+- Escolhe a temp com melhor ponte/overhang e menos stringing → grava no perfil do material.
+
+### 5c. Retração (direct drive = simples)
+- Bulldog direct: já em 0.8–1.0 mm; raramente precisa de torre.
+- Stringing após acertar temperatura → torre de retração (plugin), varia 0.5–1.5 mm.
+- Velocidade: o firmware agora permite até **50 mm/s** (era 25). Perfis Velocidade usam 45.
+
+### 5d. Ordem recomendada
+1. ✅ MPC (térmica) → 2. ✅ Mesh → 3. **FT freq (ringing)** → 4. **Z-offset fino (babystep)**
+→ 5. Flow → 6. Temperatura → 7. **Linear Advance K** → 8. Retração (se precisar)
+
+Sempre **uma variável por vez**, re-testa.
+
+---
+
 ## Referência rápida de comandos
 
 ```gcode
