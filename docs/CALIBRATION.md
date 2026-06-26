@@ -213,6 +213,34 @@ Sempre **uma variável por vez**, re-testa.
 
 ---
 
+## 6. Ganhar velocidade (depois da qualidade base)
+
+Velocidade real é limitada por: **vazão do hotend > torque dos motores > massa do cabeçote**.
+
+### 6a. Vazão máxima (mm³/s) — A calibração de velocidade
+Acha o teto real de vazão do BP6 (copper block + brass + sock):
+1. Imprime uma **parede única** (vaso, 0.2 camada, 0.4 width) subindo a **velocidade** em
+   degraus: 40, 60, 80, 100, 120, 140 mm/s.
+2. Acha onde começa a **sub-extrudir** (falhas, superfície rugosa, extrusor "clicando").
+3. `vazão_max = velocidade_boa × 0.2 × 0.4` (ex.: 100 mm/s × 0.08 = 8 mm³/s).
+   Com copper + brass + sock, espera **~12–15 mm³/s** (melhor que V6 puro).
+4. **Seta no Cura:** Material → **Maximum Volumetric Speed** = ~90% do máximo achado.
+   Aí o Cura limita TODA velocidade pra não passar da vazão → podes subir os speeds dos
+   perfis sem sub-extrudir.
+
+> Atalho: **OrcaSlicer** tem teste "Max flow rate" embutido (menu Calibration). Dá pra usar
+> só pra calibrar e seguir imprimindo no Cura.
+
+### 6b. Limite de aceleração
+Com FT_MOTION ativo, sobe a accel em degraus e procura **layer shift** (perde passo) ou
+ringing forte. Gantry XL pesado + 12V limita isso — acha o teto e fica abaixo.
+
+### 6c. Teto de hardware (quando esgotar o software)
+1. **24V** (torque em alta + heating) → 2. **Bico CHT high-flow** (vazão ~20–25) →
+3. **Extrusor leve** (menos massa = mais accel) → 4. **Klipper** (tira o gargalo do MCU G0).
+
+---
+
 ## Referência rápida de comandos
 
 ```gcode
