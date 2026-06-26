@@ -5,19 +5,28 @@ Guia das torres e testes necessários depois da rodada de firmware de 2026-06-25
 
 > **Faça nesta ordem.** Cada passo depende do anterior estar estável. Não pule a térmica.
 >
-> **Segurança:** sem silicone sock, o hotend é térmico-marginal. Nunca afrouxe Thermal
+> **Segurança:** sock instalado (margem térmica melhorou), mas **nunca** afrouxe Thermal
 > Protection. Faça `M503` e guarde ANTES de qualquer `M500`/`M502`.
 
 ---
 
-## 0. Antes de tudo — flashar e conferir
+## 0. Antes de tudo — flashar e limpar a EEPROM
 
-1. Copiar `.pio/build/STM32G0B1RE_btt/firmware.bin` pra raiz do SD → inserir → ligar.
-2. Conferir versão e que subiu: `M115`.
-3. Backup do estado atual da EEPROM: `M503` (salvar a saída num arquivo).
-4. **Importante:** o PID do hotend foi substituído por MPC. Até calibrar o MPC (passo 1),
-   o controle de temperatura usa o modelo *default* (genérico) — pode oscilar. **Não
-   imprima antes do passo 1.**
+1. **Backup:** `M503` → salvar a saída num arquivo (referência do Z-offset atual etc.).
+2. Copiar `.pio/build/STM32G0B1RE_btt/firmware.bin` pra raiz do SD → inserir → ligar.
+3. Conferir que subiu: `M115`.
+4. **Limpar a EEPROM (recomendado):** o merge mudou muita coisa e trocou PID→MPC; a EEPROM
+   antiga tem valores obsoletos (PID inútil com MPC, accel velha 1200). Carrega os defaults novos:
+   ```gcode
+   M502     ; defaults compilados (já trazem os tetos novos: E50, max accel 4000, JD 0.08, accel 3000/5000)
+   M500     ; grava
+   ```
+   Isso também zera **Z-offset e mesh** — ambos recalibrados abaixo (Z-offset volta pro
+   compilado −3.88, errado pro teu setup → re-setado no passo 3).
+   *(Alternativa, se NÃO quiser M502: aplica os tetos na mão — `M203 E50` / `M201 X4000 Y4000` /
+   `M204 P3000 T5000` / `M205 J0.08` / `M500`.)*
+5. **Não imprima ainda** — até calibrar o MPC (passo 1) o hotend usa modelo genérico e a
+   temperatura pode oscilar.
 
 ---
 
