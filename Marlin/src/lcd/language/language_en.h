@@ -605,7 +605,7 @@ namespace LanguageNarrow_en {
   LSTR MSG_MESH_MAX_Y                     = _UxGT("Mesh Y Maximum");
   LSTR MSG_MESH_AMAX                      = _UxGT("Maximize Area");
   LSTR MSG_MESH_CENTER                    = _UxGT("Center Area");
-  LSTR MSG_MESH_CANCEL                    = _UxGT("Mesh cancelled");
+  LSTR MSG_MESH_CANCEL                    = _UxGT("Mesh canceled");
   LSTR MSG_M48_OUT_OF_BOUNDS              = _UxGT("Probe out of bounds");
   LSTR MSG_IDEX_DUPE_GAP                  = _UxGT("Duplicate X-Gap");
   LSTR MSG_UBL_TILT_MESH                  = _UxGT("Tilt Mesh");
@@ -838,6 +838,8 @@ namespace LanguageNarrow_en {
   LSTR MSG_FTM_TRAPEZOIDAL                = _UxGT("Trapezoidal");
   LSTR MSG_FTM_POLY5                      = _UxGT("5th Order");
   LSTR MSG_FTM_POLY6                      = _UxGT("6th Order");
+  LSTR MSG_FTM_CONSTANT_JOLT              = _UxGT("Constant Jolt");
+  LSTR MSG_FTM_JOLT                       = _UxGT("Jolt (m/s3)");
   LSTR MSG_FTM_TRAJECTORY                 = _UxGT("Trajectory: $");
   LSTR MSG_FILAMENT_EN                    = _UxGT("Filament *");
   LSTR MSG_SEGMENTS_PER_SECOND            = _UxGT("Segments/Sec");
