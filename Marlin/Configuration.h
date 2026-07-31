@@ -1851,7 +1851,9 @@
  * These options are most useful for the BLTouch probe, but may also improve
  * readings with inductive probes and piezo sensors.
  */
-#define PROBING_HEATERS_OFF       // Turn heaters off when probing — removes PWM electrical noise from BLTouch readings
+//#define PROBING_HEATERS_OFF     // DO NOT ENABLE on this machine: it toggles the bed heater off/on at every probe
+                                  // point (25x during G29). The inrush on each re-enable browns out the 12V supply and
+                                  // resets the board mid-mesh. Reverted 2026-07-31 after it did exactly that.
 #if ENABLED(PROBING_HEATERS_OFF)
   //#define WAIT_FOR_BED_HEATER     // Wait for bed to heat back up between probes (to improve accuracy)
   //#define WAIT_FOR_HOTEND         // Wait for hotend to heat back up between probes (to improve accuracy & prevent cold extrude)
