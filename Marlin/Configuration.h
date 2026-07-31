@@ -2115,7 +2115,7 @@
       #define FILAMENT_SWITCH_AND_MOTION      // Define separate pins below to sense motion
       #if ENABLED(FILAMENT_SWITCH_AND_MOTION)
 
-        #define FILAMENT_MOTION_DISTANCE_MM 3.0 // (mm) Missing distance required to trigger runout
+        #define FILAMENT_MOTION_DISTANCE_MM 10.0 // (mm) Missing distance to trigger runout. 3.0 false-triggered (slow feed / coarse encoder); 10 avoids it, still catches real jams.
 
         #define NUM_MOTION_SENSORS   1          // Number of sensors, up to one per extruder. Define a FIL_MOTION#_PIN for each.
         #define FIL_MOTION1_PIN    POWER_LOSS_PIN
