@@ -2112,7 +2112,11 @@
     // Enable this option to use an encoder disc that toggles the runout pin
     // as the filament moves. (Be sure to set FILAMENT_MOTION_DISTANCE_MM
     // large enough to avoid false positives.)
-    #define FILAMENT_MOTION_SENSOR
+    // DISABLED 2026-07-31: the motion/encoder sensor kept false-triggering a runout ~1 min into
+    // every print, pausing the job (and the cold resume then ground the filament). Raising
+    // FILAMENT_MOTION_DISTANCE_MM 3 -> 10 was not enough. The mechanical runout switch below still
+    // works and reliably catches actual filament-out; only jam detection is lost.
+    //#define FILAMENT_MOTION_SENSOR
 
     #if ENABLED(FILAMENT_MOTION_SENSOR)
       #define FILAMENT_SWITCH_AND_MOTION      // Define separate pins below to sense motion
