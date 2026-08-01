@@ -2121,11 +2121,12 @@
       #define FILAMENT_SWITCH_AND_MOTION      // Define separate pins below to sense motion
       #if ENABLED(FILAMENT_SWITCH_AND_MOTION)
 
-        #define FILAMENT_MOTION_DISTANCE_MM 20.0 // (mm) Missing distance to trigger runout. SFS V2.0 pulses
-                                                 // every ~2.88 mm, but measured gaps between edges get long in
-                                                 // slow/detailed sections, and retraction moves filament without
-                                                 // net advance. 3 and 10 both false-triggered; 20 is ~7x the pulse
-                                                 // pitch and still catches a real jam within a few layers.
+        #define FILAMENT_MOTION_DISTANCE_MM 30.0 // (mm) Missing distance to trigger runout. SFS V2.0 pulses
+                                                 // every ~2.88 mm nominally, but the optical encoder misses edges
+                                                 // when filament creeps: 3 mm and 10 mm both false-tripped, and 10
+                                                 // tripped three times during a flow-calibration print (very slow
+                                                 // extrusion). 30 is ~10x the pulse pitch — still catches a real jam
+                                                 // within a few layers, but survives slow calibration prints.
 
         #define NUM_MOTION_SENSORS   1          // Number of sensors, up to one per extruder. Define a FIL_MOTION#_PIN for each.
         #define FIL_MOTION1_PIN    POWER_LOSS_PIN

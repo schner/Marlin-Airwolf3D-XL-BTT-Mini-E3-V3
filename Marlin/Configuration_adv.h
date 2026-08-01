@@ -2795,19 +2795,23 @@
 // @section gcode
 
 // The number of linear moves that can be in the planner at once.
+// Raised 16 -> 32: OrcaSlicer emits many short segments on curved/detailed models, and a deeper
+// planner queue keeps look-ahead fed so the head doesn't stutter or blob at corners. RAM is only
+// ~16% used on this board, so the extra blocks are cheap.
 #if ALL(HAS_MEDIA, DIRECT_STEPPING)
   #define BLOCK_BUFFER_SIZE  8
 #elif HAS_MEDIA
-  #define BLOCK_BUFFER_SIZE 16
+  #define BLOCK_BUFFER_SIZE 32
 #else
-  #define BLOCK_BUFFER_SIZE 16
+  #define BLOCK_BUFFER_SIZE 32
 #endif
 
 // @section serial
 
 // The ASCII buffer for serial input
 #define MAX_CMD_SIZE 96
-#define BUFSIZE 4
+#define BUFSIZE 8   // Raised 4 -> 8: printing over USB from OctoPrint, a deeper command queue rides
+                    // out host hiccups without starving the planner.
 
 /**
  * Host Transmit Buffer Size
@@ -2818,7 +2822,7 @@
  *  - Other output doesn't need to be that speedy.
  * :[0, 2, 4, 8, 16, 32, 64, 128, 256]
  */
-#define TX_BUFFER_SIZE 0
+#define TX_BUFFER_SIZE 32   // Raised 0 -> 32 so status/temperature replies don't block the main loop
 
 /**
  * Host Receive Buffer Size
