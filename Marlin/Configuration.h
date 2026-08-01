@@ -2112,17 +2112,20 @@
     // Enable this option to use an encoder disc that toggles the runout pin
     // as the filament moves. (Be sure to set FILAMENT_MOTION_DISTANCE_MM
     // large enough to avoid false positives.)
-    // DISABLED 2026-07-31: the motion/encoder sensor kept false-triggering a runout ~1 min into
-    // every print, pausing the job (and the cold resume then ground the filament). Raising
-    // FILAMENT_MOTION_DISTANCE_MM 3 -> 10 was not enough. The mechanical runout switch below still
-    // works and reliably catches actual filament-out; only jam detection is lost.
-    //#define FILAMENT_MOTION_SENSOR
+    // BTT SFS V2.0 encoder. Verified working by sampling PC12 during a live print: the pin
+    // toggles (~2.88 mm of filament per pulse, per the SFS manual). False runouts came from the
+    // detection distance being too tight, not from bad hardware — 3 mm and 10 mm both tripped.
+    #define FILAMENT_MOTION_SENSOR
 
     #if ENABLED(FILAMENT_MOTION_SENSOR)
       #define FILAMENT_SWITCH_AND_MOTION      // Define separate pins below to sense motion
       #if ENABLED(FILAMENT_SWITCH_AND_MOTION)
 
-        #define FILAMENT_MOTION_DISTANCE_MM 10.0 // (mm) Missing distance to trigger runout. 3.0 false-triggered (slow feed / coarse encoder); 10 avoids it, still catches real jams.
+        #define FILAMENT_MOTION_DISTANCE_MM 20.0 // (mm) Missing distance to trigger runout. SFS V2.0 pulses
+                                                 // every ~2.88 mm, but measured gaps between edges get long in
+                                                 // slow/detailed sections, and retraction moves filament without
+                                                 // net advance. 3 and 10 both false-triggered; 20 is ~7x the pulse
+                                                 // pitch and still catches a real jam within a few layers.
 
         #define NUM_MOTION_SENSORS   1          // Number of sensors, up to one per extruder. Define a FIL_MOTION#_PIN for each.
         #define FIL_MOTION1_PIN    POWER_LOSS_PIN
