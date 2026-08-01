@@ -118,3 +118,23 @@ M412 S0 / S1    ; runout off/on (durante testes lentos)
 M500            ; gravar
 M503            ; conferir
 ```
+
+### ⚠️ Pegadinha do M412 (bug do Marlin upstream)
+
+`M412 L<n>` **sozinho não funciona** — o parser só entra no bloco de escrita se vir
+`R`, `S`, `D` ou `H`; o `L` ficou de fora dessa lista (`M412.cpp`, `parser.seen("RS"...)`).
+Mandar só `L` cai no ramo de relatório e o valor é **silenciosamente ignorado**.
+
+Sempre mandar junto com `S`:
+
+```gcode
+M412 S1 L30     ; correto — S1 entra no bloco, L30 é aplicado
+M500
+M412            ; confirmar "Motion distance 30.00mm"
+```
+
+### ⚠️ EEPROM manda, não o firmware compilado
+
+Vários valores (runout D/L, PID/MPC, offsets, accel, JD, K) vivem na **EEPROM**.
+Reflashar **não** os altera — só `M502` (que apaga tudo, incluindo mesh e `M206`).
+Ao mudar um default em `Configuration*.h`, aplicar também o G-code equivalente + `M500`.
