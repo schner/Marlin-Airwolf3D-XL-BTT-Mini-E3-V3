@@ -831,9 +831,9 @@
 
   // 120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
   // from FOPDT model - kp=.39 Tp=405 Tdead=66, Tc set to 79.2, aggressive factor of .15 (vs .1, 1, 10)
-  #define DEFAULT_BED_KP  50.57
-  #define DEFAULT_BED_KI   7.35
-  #define DEFAULT_BED_KD 231.93
+  #define DEFAULT_BED_KP  95.54
+  #define DEFAULT_BED_KI  18.66
+  #define DEFAULT_BED_KD 326.11
 
   // FIND YOUR OWN: "M303 E-1 C8 S90" to run autotune on the bed at 90 degreesC for 8 cycles.
 #else
@@ -1401,9 +1401,9 @@
  *   M204 I    Angular Acceleration
  *   M204 J    Angular Travel Acceleration
  */
-#define DEFAULT_ACCELERATION                   3000  // X, Y, Z ... and E acceleration for printing moves
+#define DEFAULT_ACCELERATION                   4000  // X, Y, Z ... and E acceleration for printing moves
 #define DEFAULT_RETRACT_ACCELERATION           500  // E acceleration for retracts
-#define DEFAULT_TRAVEL_ACCELERATION            5000  // X, Y, Z ... acceleration for travel (non printing) moves
+#define DEFAULT_TRAVEL_ACCELERATION            4000  // X, Y, Z ... acceleration for travel (non printing) moves
 #if ENABLED(AXIS4_ROTATES)
   #define DEFAULT_ANGULAR_ACCELERATION        3000  // I, J, K acceleration for rotational-only printing moves
   #define DEFAULT_ANGULAR_TRAVEL_ACCELERATION 3000  // I, J, K acceleration for rotational-only travel (non printing) moves
@@ -1736,7 +1736,7 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET { 38, 0, -3.88 } // (mm) X, Y, Z distance from Nozzle tip to Probe trigger-point
+#define NOZZLE_TO_PROBE_OFFSET { 38, 0, -3.43 } // (mm) X, Y, Z distance from Nozzle tip to Probe trigger-point
 
 // Enable and set to use a specific tool for probing. Disable to allow any tool.
 #define PROBING_TOOL 0
