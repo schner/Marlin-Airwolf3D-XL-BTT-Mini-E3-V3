@@ -74,7 +74,10 @@ a esta máquina (Marlin + BP6 + direct drive Bulldog + FT_MOTION).
 
 - **Calibration → Cornering**
 - Marlin usa **Junction Deviation** (`M205 J`), não jerk clássico.
-- Faixa: **0.02 → 0.16**, passo 0.02. Atual: **0.08**.
+- Modelo: **Ringing Tower**. Faixa: **Start 0.02 → End 0.25**. Atual: **0.08**.
+- 🔴 **NÃO usar Start 0.000** (o default do diálogo). O Marlin aceita apenas
+  `J` entre **0.01 e 0.3**; abaixo disso ele responde
+  `Error:?J out of range (0.01 to 0.3)` e **aborta a impressão em andamento**.
 - **Ler:** maior JD com cantos ainda limpos (sem overshoot/bojo).
 - **Aplicar:** `M205 J<valor>` + `M500`.
 
