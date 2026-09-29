@@ -1,0 +1,73 @@
+{
+    "type": "filament",
+    "name": "TPU Airwolf",
+    "version": "02.04.00.01",
+    "from": "User",
+    "setting_id": "",
+    "inherits": "Generic TPU @System",
+    "instantiation": "true",
+    "filament_id": "GFU99",
+    "compatible_printers": [
+        "Airwolf XL SchnerMod 0.4 nozzle"
+    ],
+    "filament_diameter": [
+        "1.75"
+    ],
+    "filament_flow_ratio": [
+        "1"
+    ],
+    "nozzle_temperature": [
+        "230"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "235"
+    ],
+    "hot_plate_temp": [
+        "50"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "50"
+    ],
+    "textured_plate_temp": [
+        "50"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "50"
+    ],
+    "fan_max_speed": [
+        "50"
+    ],
+    "fan_min_speed": [
+        "30"
+    ],
+    "close_fan_the_first_x_layers": [
+        "2"
+    ],
+    "slow_down_layer_time": [
+        "10"
+    ],
+    "slow_down_min_speed": [
+        "10"
+    ],
+    "filament_max_volumetric_speed": [
+        "3.5"
+    ],
+    "filament_retraction_length": [
+        "0.6"
+    ],
+    "filament_retraction_speed": [
+        "22"
+    ],
+    "filament_deretraction_speed": [
+        "20"
+    ],
+    "filament_z_hop": [
+        "0.2"
+    ],
+    "filament_retract_when_changing_layer": [
+        "0"
+    ],
+    "filament_wipe": [
+        "0"
+    ]
+}

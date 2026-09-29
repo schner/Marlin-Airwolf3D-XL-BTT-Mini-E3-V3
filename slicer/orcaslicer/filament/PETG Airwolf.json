@@ -1,0 +1,61 @@
+{
+    "type": "filament",
+    "name": "PETG Airwolf",
+    "version": "02.04.00.01",
+    "from": "User",
+    "setting_id": "",
+    "inherits": "Generic PETG @System",
+    "instantiation": "true",
+    "filament_id": "GFG99",
+    "compatible_printers": [
+        "Airwolf XL SchnerMod 0.4 nozzle"
+    ],
+    "filament_diameter": [
+        "1.75"
+    ],
+    "filament_flow_ratio": [
+        "1"
+    ],
+    "nozzle_temperature": [
+        "240"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "245"
+    ],
+    "hot_plate_temp": [
+        "75"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "75"
+    ],
+    "textured_plate_temp": [
+        "75"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "75"
+    ],
+    "fan_max_speed": [
+        "50"
+    ],
+    "fan_min_speed": [
+        "30"
+    ],
+    "close_fan_the_first_x_layers": [
+        "3"
+    ],
+    "slow_down_layer_time": [
+        "10"
+    ],
+    "filament_max_volumetric_speed": [
+        "8"
+    ],
+    "filament_retraction_length": [
+        "1.4"
+    ],
+    "filament_retraction_speed": [
+        "45"
+    ],
+    "filament_deretraction_speed": [
+        "40"
+    ]
+}

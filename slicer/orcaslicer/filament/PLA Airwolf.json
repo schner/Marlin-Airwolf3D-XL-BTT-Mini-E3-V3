@@ -1,0 +1,67 @@
+{
+    "type": "filament",
+    "name": "PLA Airwolf",
+    "version": "02.04.00.01",
+    "from": "User",
+    "setting_id": "",
+    "inherits": "Generic PLA @System",
+    "instantiation": "true",
+    "filament_id": "GFL99",
+    "compatible_printers": [
+        "Airwolf XL SchnerMod 0.4 nozzle"
+    ],
+    "filament_diameter": [
+        "1.75"
+    ],
+    "filament_flow_ratio": [
+        "1.015"
+    ],
+    "nozzle_temperature": [
+        "195"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "205"
+    ],
+    "hot_plate_temp": [
+        "60"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "60"
+    ],
+    "textured_plate_temp": [
+        "60"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "60"
+    ],
+    "fan_max_speed": [
+        "100"
+    ],
+    "fan_min_speed": [
+        "100"
+    ],
+    "fan_cooling_layer_time": [
+        "8"
+    ],
+    "close_fan_the_first_x_layers": [
+        "1"
+    ],
+    "slow_down_layer_time": [
+        "8"
+    ],
+    "slow_down_min_speed": [
+        "10"
+    ],
+    "filament_max_volumetric_speed": [
+        "16"
+    ],
+    "filament_retraction_length": [
+        "0.5"
+    ],
+    "filament_retraction_speed": [
+        "50"
+    ],
+    "filament_deretraction_speed": [
+        "40"
+    ]
+}

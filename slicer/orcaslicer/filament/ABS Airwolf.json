@@ -1,0 +1,58 @@
+{
+    "type": "filament",
+    "name": "ABS Airwolf",
+    "version": "02.04.00.01",
+    "from": "User",
+    "setting_id": "",
+    "inherits": "Generic ABS @System",
+    "instantiation": "true",
+    "filament_id": "GFB99",
+    "compatible_printers": [
+        "Airwolf XL SchnerMod 0.4 nozzle"
+    ],
+    "filament_diameter": [
+        "1.75"
+    ],
+    "filament_flow_ratio": [
+        "1"
+    ],
+    "nozzle_temperature": [
+        "250"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "255"
+    ],
+    "hot_plate_temp": [
+        "100"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "100"
+    ],
+    "textured_plate_temp": [
+        "100"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "100"
+    ],
+    "fan_max_speed": [
+        "20"
+    ],
+    "fan_min_speed": [
+        "0"
+    ],
+    "close_fan_the_first_x_layers": [
+        "5"
+    ],
+    "filament_max_volumetric_speed": [
+        "8"
+    ],
+    "filament_retraction_length": [
+        "1.2"
+    ],
+    "filament_retraction_speed": [
+        "45"
+    ],
+    "filament_deretraction_speed": [
+        "40"
+    ]
+}

@@ -20,6 +20,11 @@ all the customization and are normally the only ones with uncommitted changes:
 When asked to "change the printer", "fix homing", "adjust the probe", etc., edit those
 files — not the firmware modules.
 
+Slicer presets (OrcaSlicer) are versioned separately in `slicer/orcaslicer/`. OrcaSlicer
+(`%APPDATA%\OrcaSlicer\user\default`) is the source of truth; `sync_profiles.py export`
+refreshes the repo snapshot and blanks the OctoPrint host/API key (the repo is public).
+Never commit `printhost_apikey`.
+
 ## Build, flash, test
 
 PlatformIO is the build system. Default environment is `STM32G0B1RE_btt` (set in

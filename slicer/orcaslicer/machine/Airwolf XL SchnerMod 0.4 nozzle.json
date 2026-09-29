@@ -1,0 +1,99 @@
+{
+    "type": "machine",
+    "name": "Airwolf XL SchnerMod 0.4 nozzle",
+    "default_filament_profile": [
+        "PLA Airwolf"
+    ],
+    "default_print_profile": "PLA Qualidade @Airwolf",
+    "deretraction_speed": [
+        "40"
+    ],
+    "extruder_clearance_radius": "45",
+    "from": "User",
+    "gcode_flavor": "marlin2",
+    "inherits": "MyMarlin 0.4 nozzle",
+    "machine_end_gcode": "M104 S0 ; nozzle off\nM140 S0 ; bed off\nM107 ; fan off\n\nG91 ; relative\nG1 E-2 F1800 ; retract\nG1 Z10 F3000 ; lift\nG90 ; absolute\n\nG1 X0 Y200 F6000 ; present the print\nM84 ; motors off",
+    "machine_max_acceleration_extruding": [
+        "4000",
+        "4000"
+    ],
+    "machine_max_acceleration_retracting": [
+        "500",
+        "500"
+    ],
+    "machine_max_acceleration_travel": [
+        "4000",
+        "4000"
+    ],
+    "machine_max_acceleration_x": [
+        "4000",
+        "4000"
+    ],
+    "machine_max_acceleration_y": [
+        "4000",
+        "4000"
+    ],
+    "machine_max_acceleration_z": [
+        "100",
+        "100"
+    ],
+    "machine_max_jerk_z": [
+        "0.3",
+        "0.3"
+    ],
+    "machine_max_speed_e": [
+        "50",
+        "50"
+    ],
+    "machine_max_speed_x": [
+        "300",
+        "300"
+    ],
+    "machine_max_speed_y": [
+        "300",
+        "300"
+    ],
+    "machine_max_speed_z": [
+        "5",
+        "5"
+    ],
+    "machine_start_gcode": "; --- Airwolf XL SchnerMod ---\nG90 ; absolute coordinates\nM83 ; extruder relative mode\n\nM140 S[first_layer_bed_temperature] ; start heating bed\nM104 S150 ; warm but below the oozing point\nM190 S[first_layer_bed_temperature] ; wait for bed\n\nG28 ; home with a cool nozzle so the probe stays clean\nM420 S1 ; restore saved mesh\n\n; park at the front-left corner BEFORE the final heat-up, so whatever oozes\n; while M109 waits lands off to the side instead of over the build area\nG1 Z10 F3000\nG1 X5 Y10 F6000\nM104 S[first_layer_temperature]\nM109 S[first_layer_temperature] ; wait for nozzle, parked\n\n; double prime line - out and back - to purge the ooze and stabilise flow\nG92 E0\nG1 Z0.28 F600\nG1 X10 Y20 F6000\nG1 X10 Y180 E16 F1200 ; pass 1\nG1 X10.6 Y180 F6000\nG1 X10.6 Y20 E16 F1200 ; pass 2\nG92 E0\n\n; break the string away from the nozzle before starting the part\nG1 E-0.8 F2100\nG1 Z2 F3000\nG1 X25 Y20 F6000\nG92 E0",
+    "max_layer_height": [
+        "0.32"
+    ],
+    "print_host": "",
+    "printable_area": [
+        "0x0",
+        "275x0",
+        "275x200",
+        "0x200"
+    ],
+    "printable_height": "160",
+    "printer_extruder_id": [
+        "1"
+    ],
+    "printer_extruder_variant": [
+        "Direct Drive Standard"
+    ],
+    "printer_settings_id": "Airwolf XL SchnerMod 0.4 nozzle",
+    "printhost_apikey": "",
+    "retraction_length": [
+        "1.2"
+    ],
+    "retraction_minimum_travel": [
+        "0.8"
+    ],
+    "version": "2.4.0.1",
+    "wipe": [
+        "1"
+    ],
+    "wipe_distance": [
+        "2"
+    ],
+    "z_hop": [
+        "0.2"
+    ],
+    "z_hop_types": [
+        "Auto Lift"
+    ]
+}
