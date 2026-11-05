@@ -25,6 +25,22 @@ Slicer presets (OrcaSlicer) are versioned separately in `slicer/orcaslicer/`. Or
 refreshes the repo snapshot and blanks the OctoPrint host/API key (the repo is public).
 Never commit `printhost_apikey`.
 
+## Machine status (2026-11-05): parked
+
+The Airwolf is **out of use for now**; the Voron 2.4 is the main printer (its work lives in
+the `voron-24-350-klipper` repo). Don't propose calibration, purchases or upgrades here
+unless the owner resumes this machine. Where it stopped:
+
+- **Calibrated, per commits:** Pressure Advance (K 0.04, 2026-08-02), Junction Deviation
+  (0.09, 2026-08-03), MPC model with the brass nozzle (2026-08-01).
+- **Not calibrated:** FT_MOTION shaper frequency (37 Hz is a placeholder, never measured).
+- **No record in this repo:** temperature, max volumetric speed, flow and retraction tests.
+- **Known mechanical issues, unfixed:** play in the X carriage (seen in the cornering test).
+  Z still runs on threaded rod (2560 steps/mm); the T8 lead screw swap stopped on 2026-08-05,
+  waiting for the STL, measurements and photos of the Z nut bracket.
+- **Missing backup:** no `M503` dump saved since 2026-06-25. Take one first when the machine is
+  next powered on.
+
 ## Build, flash, test
 
 PlatformIO is the build system. Default environment is `STM32G0B1RE_btt` (set in
@@ -110,15 +126,17 @@ printer. Knowing the mechanics explains the config choices:
   After any hotend hardware swap (sock/nozzle/block/throat): re-run MPC autotune
   (`M306 T` + `M500`) and re-set Z-offset/mesh.
 - **Probe:** BLTouch. **Bed:** heated, dual-sided magnetic plate (textured/smooth).
-- **Host:** Raspberry Pi 4 running OctoPrint + OctoDash; Logitech C920 for timelapse
-  (Octolapse). Onboard touch screen present.
+- **Host:** none. The Raspberry Pi 4 went to the Voron, so OctoPrint, OctoDash and Octolapse
+  (Logitech C920) are retired here for now. Print from the SD card; send G-code over direct
+  USB from a PC or use the onboard touch screen.
 - **Serial:** `SERIAL_PORT 2`, `BAUDRATE 115200`, `SERIAL_PORT_2 -1`. ⚠️ The host/PIO
   serial monitor must use **115200** — `platformio.ini`'s `monitor_speed = 250000` does
   **not** match the firmware.
 
-Full machine context (calibration state, mesh, Cura profiles, Octolapse, diagnostic
-routines, safety rules) lives in [docs/AIRWOLF-SchnerMod.md](docs/AIRWOLF-SchnerMod.md).
-Read it before tuning anything print-quality related.
+Full machine context (mesh, Cura profiles, Octolapse, diagnostic routines, safety rules)
+lives in [docs/AIRWOLF-SchnerMod.md](docs/AIRWOLF-SchnerMod.md). Most of it is a June 2026
+snapshot; where it disagrees with this file, this file wins. Read it before tuning anything
+print-quality related.
 
 ## ⚠️ Compiled defaults vs. live EEPROM — read before editing config
 
@@ -128,20 +146,22 @@ G-code + `M500`), not from `Configuration*.h`. So:
 - **Editing `Configuration.h` does NOT change a running machine** until an `M502`
   (reset to compiled defaults) or a flash with reset EEPROM. Routine config edits +
   reflash leave the saved EEPROM values in place.
-- Conversely, several live values were tuned in G-code and **diverge from the source**.
-  Confirmed divergences (verify current state with `M503` before acting):
+- Tuned values were mirrored into the source on 2026-08-01 to 2026-08-03. The commits say
+  these match what the machine ran, but **the newest saved `M503` dump is from 2026-06-25**:
 
-  | Param | Compiled (`Configuration*.h`) | Live EEPROM (`M503`) |
+  | Param | Compiled (`Configuration*.h`) | Live EEPROM, per commits |
   |---|---|---|
-  | Hotend PID | 12.54 / 0.88 / 44.63 | 12.92 / 0.84 / 49.60 |
-  | Bed PID | 50.57 / 7.35 / 231.93 | 95.54 / 18.66 / 326.11 |
-  | Probe Z offset | −3.88 | −2.93 (`M851`) |
-  | Print / travel accel | 3000 / 5000 | 1200 / 1200 (`M204`) |
-  | Filament runout | enabled | off (`M412 S0`) |
+  | Hotend control | MPC (`MPCTEMP`, `PIDTEMP` off) | same model, `M306 T` with brass nozzle |
+  | Bed PID | 95.54 / 18.66 / 326.11 | same |
+  | Probe Z offset | −3.43 | same (`M851`) |
+  | Print / travel accel | 4000 / 4000 | same (`M204`) |
+  | Linear Advance K | 0.04 | same (`M900`) |
+  | Junction deviation | 0.09 | same (`M205 J`) |
+  | Filament runout | enabled | re-enabled 2026-08-01; confirm with `M412` |
+  | Home offset | none | `M206 X-19` (`M503` of 2026-08-01, see below) |
 
 - To make a tuned value survive `M502`, mirror it into `Configuration*.h` **and** keep
-  the EEPROM copy. The machine is still in fine calibration — treat retraction, Linear
-  Advance (currently `M900 K0`), speeds, flow, and PID as not-yet-final.
+  the EEPROM copy. Speeds, flow and retraction are not final; see Machine status.
 
 **Safety (never override to "fix" a symptom):** don't disable/loosen `THERMAL_PROTECTION`;
 don't run `M502` without an `M503` backup first; don't raise driver current, max temp,
@@ -153,21 +173,23 @@ Deliberate deviations in `Configuration*.h` — preserve them; don't "fix" them 
 
 - `CUSTOM_MACHINE_NAME "Airwolf-XL-V4.7.6"`, author tag `M Schner IT`
 - Bed **275 × 200**, `Z_MAX_POS 160`, `X_MIN_POS -16`
-- ⚠️ **`M206 X-16` (home offset) is REQUIRED and lives only in EEPROM.** The machine's X
-  endstop sits ~16 mm further left than `X_MIN_POS` alone accounts for; without the M206
-  offset, `G29` drives the probe past the physical X end and **crashes into the frame**.
-  It survives a normal reflash but **`M502` wipes it** — after any `M502`, re-apply
-  `M206 X-16` + `M500` BEFORE homing/G29. (Not yet baked into `Configuration.h`; doing so
-  needs verifying the real endstop-to-bed geometry, not guessing X_MIN/X_MAX.)
+- ⚠️ **`M206 X-19` (home offset) is REQUIRED and lives only in EEPROM.** The machine's X
+  endstop sits further left than `X_MIN_POS` alone accounts for; without the offset, `G29`
+  drives the probe past the physical X end and **crashes into the frame**. `X-19` is the last
+  value read from the machine (`M503` of 2026-08-01); the 2026-06-25 backup's `X-16` is
+  outdated. It survives a normal reflash but **`M502` wipes it** — after any `M502`, re-apply
+  `M206 X-19` + `M500` BEFORE homing/G29, then check with `G28` + `G1 X0`. (Not yet baked
+  into `Configuration.h`; doing so needs verifying the real endstop-to-bed geometry, not
+  guessing X_MIN/X_MAX.)
 - **BLTouch** with `AUTO_BED_LEVELING_BILINEAR` (5×5 grid, fade height 10 mm),
-  `Z_SAFE_HOMING`, `USE_PROBE_FOR_Z_HOMING`; `NOZZLE_TO_PROBE_OFFSET { 38, 0, -3.88 }`
+  `Z_SAFE_HOMING`, `USE_PROBE_FOR_Z_HOMING`; `NOZZLE_TO_PROBE_OFFSET { 38, 0, -3.43 }`
 - TMC2209 on X/Y/Z/E0; X/Y/Z RMS current raised to **1200 mA** (E0 at 800 mA)
-- `FILAMENT_RUNOUT_SENSOR` + `FILAMENT_MOTION_SENSOR` compiled in (disabled in EEPROM)
+- `FILAMENT_RUNOUT_SENSOR` + `FILAMENT_MOTION_SENSOR` compiled in, 30 mm detection distance
 - NeoPixel strip: 32 LEDs on `PA8`
 - Bed thermistor `TEMP_SENSOR_BED 13`, retuned hotend PID
 - Steps/unit `{ 66.6666, 66.6666, 2560, 454.13 }`; **E feedrate capped at 25 mm/s**
   (`DEFAULT_MAX_FEEDRATE` E) — this is why retract/prime speeds above 25 are pointless
-- `LIN_ADVANCE`, `ARC_SUPPORT`, `AUTOTEMP` compiled in (Linear Advance K0 at runtime;
+- `LIN_ADVANCE`, `ARC_SUPPORT`, `AUTOTEMP` compiled in (Linear Advance K 0.04;
   don't enable AUTOTEMP by accident)
 - `INVERT_E0_DIR true`
 - Debug flags currently on (`DEBUG_LEVELING_FEATURE`, `PINS_DEBUGGING`) — tuning aids;

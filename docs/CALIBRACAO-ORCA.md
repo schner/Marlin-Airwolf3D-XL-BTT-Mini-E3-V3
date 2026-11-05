@@ -3,6 +3,10 @@
 Ordem oficial do OrcaSlicer (`orcaslicer.com/wiki/guides/calibration_guide`), adaptada
 a esta máquina (Marlin + BP6 + direct drive Bulldog + FT_MOTION).
 
+> **Plano pausado em 2026-11-05:** a Airwolf está parada. Feitos, segundo commits:
+> Pressure Advance e Cornering. Input Shaping não foi feito. Temperatura, vazão máxima,
+> flow e retração não têm registro no repo.
+
 > **Use o processo `Calibracao @Airwolf` em TODOS os testes.**
 > Ele tem ironing, scarf seam e fuzzy skin desligados — essas features *mascaram*
 > exatamente o que se está tentando medir.
@@ -55,7 +59,7 @@ a esta máquina (Marlin + BP6 + direct drive Bulldog + FT_MOTION).
 - **Ler:** faixa com largura de linha uniforme no canto — sem bojo (K baixo), sem
   falha/gap (K alto).
 - **Aplicar:** `M900 K<valor>` + `M500`. Espelhar em `Configuration_adv.h` (`ADVANCE_K`).
-- Valor atual: **K0.04** (chutado, não calibrado).
+- Valor atual: **K0.04**, calibrado em 2026-08-02 (torre limpa até 0.045).
 
 ## 4. Flow Rate
 
@@ -74,7 +78,8 @@ a esta máquina (Marlin + BP6 + direct drive Bulldog + FT_MOTION).
 
 - **Calibration → Cornering**
 - Marlin usa **Junction Deviation** (`M205 J`), não jerk clássico.
-- Modelo: **Ringing Tower**. Faixa: **Start 0.02 → End 0.25**. Atual: **0.08**.
+- Modelo: **Ringing Tower**. Faixa: **Start 0.02 → End 0.25**. Atual: **0.09**, calibrado
+  em 2026-08-03 (cantos limpos até 0.095).
 - 🔴 **NÃO usar Start 0.000** (o default do diálogo). O Marlin aceita apenas
   `J` entre **0.01 e 0.3**; abaixo disso ele responde
   `Error:?J out of range (0.01 to 0.3)` e **aborta a impressão em andamento**.

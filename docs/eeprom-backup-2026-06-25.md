@@ -3,6 +3,11 @@
 Snapshot da EEPROM **antes** do `M502` (reset) que acompanhou a rodada de firmware
 FT_MOTION/MPC. Guardado como referência de restauração.
 
+> ⚠️ **Backup antigo.** A calibração de julho e agosto de 2026 veio depois dele. Um `M503`
+> de 2026-08-01 mostrou `M206 X-19` e `M851 Z-3.43`, não os `X-16` e `Z-2.93` abaixo.
+> Preferir um `M503` novo; depois de reaplicar o offset, conferir o X com `G28` + `G1 X0`
+> antes de qualquer `G29`.
+
 ## O que restaurar do backup (valores ainda válidos)
 
 | G-code | Valor | Restaurar? |

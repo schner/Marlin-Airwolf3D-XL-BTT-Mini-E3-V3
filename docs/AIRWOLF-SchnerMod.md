@@ -8,7 +8,23 @@
 
 ---
 
+## Estado em 2026-11-05: máquina parada
+
+**Este bloco e o [CLAUDE.md](../CLAUDE.md) prevalecem sobre o resto do documento**, que é em grande parte um retrato de junho de 2026.
+
+- A Airwolf está **sem uso por ora**; a Voron 2.4 é a impressora principal.
+- **Sem host:** o Raspberry Pi 4 foi para a Voron. OctoPrint, OctoDash e Octolapse estão aposentados aqui. Imprimir por cartão SD; G-code por USB direto do PC, a 115200, ou pela tela touch.
+- **Slicer:** OrcaSlicer, não Cura (presets em `slicer/orcaslicer/`, altura Z já em 160 mm).
+- **`M206 X-19`:** último valor lido da máquina (`M503` de 2026-08-01). O `X-16` do backup de junho está velho. O último dump salvo no repo ainda é o de junho. **Rodar `M503` antes de qualquer `M502`.**
+- **Calibrado, segundo commits:** Linear Advance K 0.04, Junction Deviation 0.09, modelo MPC com bico de latão. Os defaults compilados foram sincronizados em 2026-08-01 a 2026-08-03.
+- **Não calibrado:** frequência do shaper FT_MOTION (37 Hz é placeholder).
+- **Mecânica sem correção:** folga no carro X; Z ainda em barra roscada, com a troca por fuso T8 parada desde 2026-08-05.
+
+---
+
 ## ⚠️ Correções verificadas contra o código-fonte (2026-06-25)
+
+> Retrato de junho, mantido como histórico. Os valores compilados atuais estão no [CLAUDE.md](../CLAUDE.md).
 
 Os valores de `M503` abaixo refletem a **EEPROM viva** da máquina. O firmware compilado
 (`Marlin/Configuration*.h`) tem **defaults diferentes** em vários pontos — porque
@@ -67,9 +83,7 @@ firmware; OctoPrint/host conecta a **115200**.
   - `SERIAL_PORT 2`
   - `BAUDRATE 115200`
   - `SERIAL_PORT_2 -1`
-- Host: Raspberry Pi 4 com OctoPrint.
-- Interface: OctoDash ativo.
-- Câmera: Logitech C920.
+- Host: nenhum desde que o Raspberry Pi 4 foi para a Voron (antes: OctoPrint + OctoDash + Logitech C920).
 - Tela touch presente.
 
 ### Movimento e hotend
@@ -100,9 +114,9 @@ firmware; OctoPrint/host conecta a **115200**.
   - Y máximo: 200 mm
   - Z máximo: 160 mm
 - Home offset:
-  - `M206 X-16.00 Y0.00 Z0.00`
+  - `M206 X-19.00 Y0.00 Z0.00` (`M503` de 2026-08-01; era `X-16.00` em junho).
 - Offset de sonda:
-  - `M851 X38.00 Y0.00 Z-2.93`
+  - `M851 X38.00 Y0.00 Z-3.43` (`M503` de 2026-08-01; era Z-2.93 em junho).
 
 ---
 
@@ -481,6 +495,8 @@ Observações:
 ---
 
 ## 10. OctoPrint e Octolapse
+
+> Aposentados nesta máquina desde que o Raspberry Pi 4 foi para a Voron. Seção mantida para quando houver um host de novo.
 
 ### Contexto
 
